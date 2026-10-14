@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact | Ghostwall</title>
+<meta name="description" content="Get in touch with the Ghostwall team — email, response times, and a message form.">
+<link rel="canonical" href="https://ghostwall.io{% url 'contact' %}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#05080d">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Armenian:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080d; --bg2:#0a1018; --panel:#0c131c; --panel2:#101a26; --line:#16212e; --line2:#22324a;
+  --text:#dbe6f0; --muted:#7d8da0; --cyan:#33f3d9; --pink:#ff3fb8;
+  --sans:'Inter','Noto Sans Armenian',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --head:'Space Grotesk','Inter','Noto Sans Armenian',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:50;padding:12px 0}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav-capsule{display:flex;align-items:center;gap:28px;padding:8px 10px 8px 20px;border:1px solid var(--line);border-radius:999px;background:rgba(10,16,24,.72)}
+.logo{font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:.18em;color:var(--cyan)}
+.navlinks{display:flex;gap:2px; list-style:none;}
+.navlinks a{display:block;padding:6px 14px;border-radius:999px;font-size:14px;color:var(--muted)}
+.navlinks a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+
+.page-hero{padding:72px 0 28px; text-align:center;}
+.page-hero h1{font-family:var(--head);font-size:clamp(2rem,4.6vw,3.1rem);color:#fff}
+.page-hero p{max-width:600px;margin:16px auto 0;color:var(--muted)}
+
+section{padding:40px 0 72px}
+.contact-inner{max-width:640px; margin:0 auto;}
+form{padding:30px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,var(--panel2),var(--panel));box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.field{margin-bottom:18px}
+.field label{display:block;margin-bottom:7px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.field input,.field textarea{width:100%;padding:13px 15px;border-radius:10px;border:1px solid var(--line2);background:#070c12;color:var(--text);font-size:15px}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(51,243,217,.15)}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 22px;border-radius:10px;font-weight:600;font-size:15px;border:1px solid transparent;cursor:pointer;background:var(--cyan);color:#02130f;width:100%}
+.notice{padding:14px 16px;border-radius:10px;margin-bottom:18px;font-size:14.5px;border:1px solid var(--line2)}
+.notice.success{border-color:rgba(51,243,217,.5);background:rgba(51,243,217,.08);color:var(--cyan)}
+.notice.error{border-color:rgba(255,63,184,.5);background:rgba(255,63,184,.08);color:#ff9bd9}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="nav-capsule">
+      <a href="{% url 'home' %}" class="logo">GHOSTWALL</a>
+      <nav>
+        <ul class="navlinks">
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'platform' %}">Platform</a></li>
+          <li><a href="{% url 'solutions' %}">Solutions</a></li>
+          <li><a href="{% url 'pricing' %}">Pricing</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="page-hero">
+  <div class="wrap contact-inner">
+    <h1>Talk to the team.</h1>
+    <p>Tell us about your environment and we'll show you what Ghostwall would have caught last week.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap contact-inner">
+    <!-- Այստեղ method-ը պարտադիր պետք է լինի POST -->
+    <form method="POST" action="{% url 'contact' %}">
+      {% csrf_token %}
+
+      {% if messages %}
+        {% for m in messages %}
+          <div class="notice {{ m.tags }}">{{ m }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="field">
+        <label for="name">Full name</label>
+        <input id="name" name="name" type="text" required>
+      </div>
+
+      <div class="field">
+        <label for="email">Work email</label>
+        <input id="email" name="email" type="email" required>
+      </div>
+
+      <div class="field">
+        <label for="company">Company</label>
+        <input id="company" name="company" type="text">
+      </div>
+
+      <div class="field">
+        <label for="msg">What are you trying to protect?</label>
+        <textarea id="msg" name="message" rows="4" required></textarea>
+      </div>
+
+      <button type="submit" class="btn">Send message</button>
+    </form>
+  </div>
+</section>
+</main>
+
+</body>
+</html>
